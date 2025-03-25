@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ترینر بازی ست</title>
+    <link href="https://cdn.jsdelivr.net/gh/rastikerdar/peyda-font@v1.0/dist/font-face.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.1/dist/sweetalert2.all.min.js"></script>
+    <style>
+               @font-face {
+            font-family: 'Peyda';
+            src: url('Peyda.woff2') format('woff2'),
+                 url('Peyda.woff') format('woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        * {
+            font-family: 'Peyda', sans-serif;
+            transition: all 0.2s ease;
+        }
+
+        .input-effect {
+            transform: translateX(0);
+        }
+        
+        .input-effect:focus-within {
+            transform: translateX(-15px);
+        }
+
+        .card-glowing {
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+        }
+
+        select {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='%233b82f6' d='M2 5l6 6 6-6'/%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 0.75rem center;
+            background-size: 16px 12px;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+        }
+
+        .custom-card {
+            background: linear-gradient(145deg, #ffffff, #f8fafc);
+            border-radius: 1.5rem;
+            border: 2px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .hover-3d {
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .hover-3d:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 sm:p-6">
+    <div class="container mx-auto max-w-6xl bg-white custom-card p-6 sm:p-8 shadow-2xl">
+        <h1 class="text-4xl font-black mb-10 text-center bg-gradient-to-l from-blue-600 to-purple-600 bg-clip-text text-transparent">
+            🃏 ترینر بازی ست
+        </h1>
+        
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- فرم ایجاد کارت -->
+            <div class="p-6 bg-blue-50 rounded-2xl input-effect">
+                <h2 class="text-2xl font-bold mb-6 text-gray-800 border-r-4 border-blue-500 pr-3">
+                    🎨 ایجاد کارت جدید
+                </h2>
+                
+                <div class="space-y-6">
+                    <!-- Input Groups -->
+                    <div class="input-effect">
+                        <label class="block mb-3 text-gray-600 font-semibold">🎨 رنگ</label>
+                        <select id="colorSelect" class="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-500 focus:ring-0 bg-white">
+                            <option value="">-- انتخاب رنگ --</option>
+                            <option value="سبز">🟢 سبز</option>
+                            <option value="آبی">🔵 آبی</option>
+                            <option value="قرمز">🔴 قرمز</option>
+                        </select>
+                    </div>
+
+                    <div class="input-effect">
+                        <label class="block mb-3 text-gray-600 font-semibold">🔶 شکل</label>
+                        <select id="shapeSelect" class="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-500 focus:ring-0 bg-white">
+                            <option value="">-- انتخاب شکل --</option>
+                            <option value="مثلث">🔺 مثلث</option>
+                            <option value="مربع">◼️ مربع</option>
+                            <option value="دایره">⭕ دایره</option>
+                        </select>
+                    </div>
+
+                    <div class="input-effect">
+                        <label class="block mb-3 text-gray-600 font-semibold">🔢 تعداد</label>
+                        <select id="countSelect" class="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-500 focus:ring-0 bg-white">
+                            <option value="">-- انتخاب تعداد --</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    </div>
+
+                    <div class="input-effect">
+                        <label class="block mb-3 text-gray-600 font-semibold">🖌️ نوع رنگ</label>
+                        <select id="fillSelect" class="w-full p-3 border-2 border-blue-200 rounded-xl focus:border-blue-500 focus:ring-0 bg-white">
+                            <option value="">-- انتخاب نوع --</option>
+                            <option value="توخالی">◻️ توخالی</option>
+                            <option value="هاشور">◑ هاشور</option>
+                            <option value="کامل">◼️ کامل</option>
+                        </select>
+                    </div>
+
+                    <button id="addCardBtn" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-xl 
+                    transform transition-all hover:scale-[1.02] active:scale-95 shadow-lg">
+                        ➕ افزودن کارت
+                    </button>
+                </div>
+            </div>
+
+            <!-- پیش نمایش و ابزارها -->
+            <div class="space-y-8">
+                <div class="bg-white p-6 rounded-2xl shadow-lg card-glowing">
+                    <h2 class="text-2xl font-bold mb-6 text-gray-800 border-r-4 border-purple-500 pr-3">
+                        🔍 پیش نمایش زنده
+                    </h2>
+                    <div class="bg-gray-50 p-4 rounded-xl">
+                        <svg id="cardPreview" width="100%" height="220" class="mx-auto transition-all"></svg>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button id="checkSetBtn" class="bg-purple-600 hover:bg-purple-700 text-white p-4 rounded-xl 
+                    font-bold transform transition-all hover:scale-[1.02] shadow-lg">
+                        🔎 بررسی ست
+                    </button>
+                    <button id="resetBtn" class="bg-red-600 hover:bg-red-700 text-white p-4 rounded-xl 
+                    font-bold transform transition-all hover:scale-[1.02] shadow-lg">
+                        🗑️ پاک کردن
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- کارت‌های ساخته شده -->
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold mb-8 text-gray-800 border-r-4 border-green-500 pr-3">
+                🃏 کارت‌های شما
+            </h2>
+            <div id="cardContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- کارت‌ها اینجا نمایش داده می‌شوند -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // انتخاب المان‌ها
+        const colorSelect = document.getElementById('colorSelect');
+        const shapeSelect = document.getElementById('shapeSelect');
+        const countSelect = document.getElementById('countSelect');
+        const fillSelect = document.getElementById('fillSelect');
+        const addCardBtn = document.getElementById('addCardBtn');
+        const cardPreview = document.getElementById('cardPreview');
+        const cardContainer = document.getElementById('cardContainer');
+        const checkSetBtn = document.getElementById('checkSetBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let cards = [];
+
+        // تابع رسم SVG
+        function drawCardSVG(card, size = 200) {
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', size);
+            svg.setAttribute('height', size);
+            svg.setAttribute('viewBox', '0 0 200 200');
+
+            const colors = {
+                'سبز': '#10b981',
+                'آبی': '#3b82f6',
+                'قرمز': '#ef4444'
+            };
+
+            const colorCode = colors[card.رنگ] || '#000';
+            const shapePaths = {
+                'مثلث': 'M100 50 L50 150 L150 150 Z',
+                'مربع': 'M50 50 L150 50 L150 150 L50 150 Z',
+                'دایره': 'M100 100 A50 50 0 1 0 100 99.9'
+            };
+
+            // ایجاد الگوی هاشور
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            const pattern = document.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+            pattern.setAttribute('id', 'hatchPattern');
+            pattern.setAttribute('patternUnits', 'userSpaceOnUse');
+            pattern.setAttribute('width', '10');
+            pattern.setAttribute('height', '10');
+            
+            const hatchPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            hatchPath.setAttribute('d', 'M-1,1 l2,-2 M0,10 l10,-10 M9,11 l2,-2');
+            hatchPath.setAttribute('stroke', colorCode);
+            hatchPath.setAttribute('stroke-width', '2');
+            
+            pattern.appendChild(hatchPath);
+            defs.appendChild(pattern);
+            svg.appendChild(defs);
+
+            // رسم اشکال
+            for (let i = 0; i < card.تعداد; i++) {
+                const shape = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                shape.setAttribute('d', shapePaths[card.شکل]);
+                shape.setAttribute('transform', `translate(0, ${i * 50})`);
+                shape.setAttribute('stroke', colorCode);
+                shape.setAttribute('stroke-width', '3');
+                
+                if (card.نوع_رنگ === 'توخالی') {
+                    shape.setAttribute('fill', 'none');
+                } else if (card.نوع_رنگ === 'هاشور') {
+                    shape.setAttribute('fill', 'url(#hatchPattern)');
+                } else {
+                    shape.setAttribute('fill', colorCode);
+                }
+
+                svg.appendChild(shape);
+            }
+
+            return svg;
+        }
+
+        // آپدیت پیش نمایش زنده
+        function updateLivePreview() {
+            const previewCard = {
+                رنگ: colorSelect.value,
+                شکل: shapeSelect.value,
+                تعداد: countSelect.value,
+                نوع_رنگ: fillSelect.value
+            };
+
+            cardPreview.innerHTML = '';
+            if (Object.values(previewCard).every(val => val)) {
+                cardPreview.appendChild(drawCardSVG(previewCard, 200));
+            }
+        }
+
+        // افزودن کارت جدید
+        addCardBtn.addEventListener('click', () => {
+            const card = {
+                رنگ: colorSelect.value,
+                شکل: shapeSelect.value,
+                تعداد: parseInt(countSelect.value),
+                نوع_رنگ: fillSelect.value
+            };
+
+            if (Object.values(card).every(val => val)) {
+                cards.push(card);
+                updateCardDisplay();
+                resetForm();
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'خطا',
+                    text: 'لطفاً همه فیلدها را پر کنید!',
+                    confirmButtonColor: '#3b82f6'
+                });
+            }
+        });
+
+        // نمایش کارت‌ها
+        function updateCardDisplay() {
+            cardContainer.innerHTML = '';
+            
+            cards.forEach((card, index) => {
+                const cardDiv = document.createElement('div');
+                cardDiv.className = 'bg-white hover-3d p-4 rounded-2xl shadow-lg';
+                
+                const svg = drawCardSVG(card, 180);
+                const infoDiv = document.createElement('div');
+                infoDiv.className = 'mt-4 text-gray-700';
+                infoDiv.innerHTML = `
+                    <p class="font-bold text-lg">کارت ${index + 1}</p>
+                    <p class="text-sm">رنگ: ${card.رنگ}</p>
+                    <p class="text-sm">شکل: ${card.شکل}</p>
+                    <p class="text-sm">تعداد: ${card.تعداد}</p>
+                    <p class="text-sm">نوع رنگ: ${card.نوع_رنگ}</p>
+                `;
+                
+                cardDiv.appendChild(svg);
+                cardDiv.appendChild(infoDiv);
+                cardContainer.appendChild(cardDiv);
+            });
+        }
+
+        // ریست فرم
+        function resetForm() {
+            colorSelect.value = '';
+            shapeSelect.value = '';
+            countSelect.value = '';
+            fillSelect.value = '';
+            updateLivePreview();
+        }
+
+        // بررسی ست
+        checkSetBtn.addEventListener('click', () => {
+            if (cards.length < 3) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'توجه',
+                    text: 'حداقل ۳ کارت برای بررسی نیاز است',
+                    confirmButtonColor: '#3b82f6'
+                });
+                return;
+            }
+
+            const validSets = findValidSets(cards);
+
+            if (validSets.length > 0) {
+                Swal.fire({
+                    title: '🎉 ست معتبر یافت شد!',
+                    html: validSets.map(set => 
+                        `<div class="p-2 bg-blue-50 rounded-lg mb-2">ست ${set.join(' - ')}</div>`
+                    ).join(''),
+                    confirmButtonColor: '#3b82f6',
+                    background: '#f8fafc'
+                });
+            } else {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'یافت نشد',
+                    text: 'هیچ ست معتبری وجود ندارد',
+                    confirmButtonColor: '#3b82f6'
+                });
+            }
+        });
+
+        // پیدا کردن ست‌های معتبر
+        function findValidSets(cards) {
+            const validSets = [];
+            for (let i = 0; i < cards.length - 2; i++) {
+                for (let j = i + 1; j < cards.length - 1; j++) {
+                    for (let k = j + 1; k < cards.length; k++) {
+                        if (isValidSet(cards[i], cards[j], cards[k])) {
+                            validSets.push([i+1, j+1, k+1]);
+                        }
+                    }
+                }
+            }
+            return validSets;
+        }
+
+        // اعتبارسنجی ست
+        function isValidSet(c1, c2, c3) {
+            const props = ['رنگ', 'شکل', 'تعداد', 'نوع_رنگ'];
+            return props.every(prop => {
+                const values = [c1[prop], c2[prop], c3[prop]];
+                return new Set(values).size !== 2;
+            });
+        }
+
+        // ریست کامل
+        resetBtn.addEventListener('click', () => {
+            Swal.fire({
+                title: 'آیا مطمئنید؟',
+                text: 'همه کارت‌ها پاک خواهند شد!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3b82f6',
+                cancelButtonColor: '#ef4444',
+                confirmButtonText: 'بله، پاک کن',
+                cancelButtonText: 'لغو'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    cards = [];
+                    cardContainer.innerHTML = '';
+                    Swal.fire({
+                        title: 'پاک شد!',
+                        text: 'همه کارت‌ها حذف شدند',
+                        icon: 'success',
+                        confirmButtonColor: '#3b82f6'
+                    });
+                }
+            });
+        });
+
+        // فعال کردن پیش نمایش زنده
+        [colorSelect, shapeSelect, countSelect, fillSelect].forEach(el => {
+            el.addEventListener('change', updateLivePreview);
+        });
+    </script>
+</body>
+</html>
